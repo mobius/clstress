@@ -45,12 +45,11 @@ class ClStress
         size_t           localThreads;
 
         size_t    kernelWorkGroupSize;      /**< Group Size returned by kernel */
-        int
-        iterations;      /**< Number of iterations for kernel execution */
-        int
-        vectorSize;      /**< Number of vector elements, default = 1 */
-        bool dynamiArgFlag;
-        bool vec3;
+        int				   iterations;      /**< Number of iterations for kernel execution */
+        int                vectorSize;      /**< Number of vector elements, default = 1 */
+		int					 nbuffers;		/**< in MB  */
+        bool			dynamiArgFlag;
+        bool					 vec3;
         SDKDeviceInfo deviceInfo;  /**< Structure to store device information*/
 
         SDKTimer *sampleTimer;      /**< SDKTimer object */
@@ -80,6 +79,7 @@ class ClStress
             localThreads = GROUP_SIZE;
             dynamiArgFlag = false;
             vec3 = false;
+			nbuffers = 512;	
         }
 
         /**

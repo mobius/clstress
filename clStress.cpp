@@ -223,6 +223,22 @@ ClStress::setupCL(void)
                                   0);
     CHECK_OPENCL_ERROR(status, "clEnqueueWriteBuffer failed. (constantBuffer)");
 
+	// Create more global buffer
+	cl_mem exGlobalBuffer = clCreateBuffer(context, CL_MEM_READ_ONLY, nbuffers*length, 0, &status);
+	CHECK_OPENCL_ERROR(status, "clCreateBuffer failed. (global buffer)");
+
+	// Write data to buffer
+	void* temp = calloc(nbuffers, length);
+	status = clEnqueueWriteBuffer(commandQueue,
+                                  exGlobalBuffer,
+                                  1,
+                                  0,
+                                  nbuffers*length,
+                                  temp,
+                                  0,
+                                  0,
+                                  0);
+    CHECK_OPENCL_ERROR(status, "clEnqueueWriteBuffer failed. (constantBuffer)");
 
     // Create output buffer
     outputBuffer = clCreateBuffer(context,
@@ -356,7 +372,8 @@ ClStress::bandwidth(cl_kernel &kernel)
 
 
     // Run the kernel for a number of iterations
-    for(int i = 0; i < iter; i++)
+   
+	 while(true) for(int i = 0; i < iter; i++)
     {
         //Enqueue a kernel run call
         cl_event ndrEvt;
